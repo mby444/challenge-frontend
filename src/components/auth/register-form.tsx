@@ -60,7 +60,10 @@ export function RegisterForm() {
     setError(null);
 
     try {
-      await registerUser(data);
+      await registerUser({
+        ...data,
+        birth: new Date(data.birth).toISOString(),
+      });
     } catch (err: any) {
       setError(
         err.response?.data?.message || "Registration failed. Please try again.",
