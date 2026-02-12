@@ -205,38 +205,82 @@ export default function TasksPage() {
       </div>
 
       {/* Filters and Search */}
-      <div className="flex flex-col gap-4 sm:flex-row">
-        <div className="flex-1">
+      <div className="flex flex-col gap-4">
+        {/* Search Bar - Full Width */}
+        <div className="w-full">
           <Input
             type="search"
-            placeholder="Search tasks..."
+            placeholder="Search tasks by title or description..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full"
           />
         </div>
 
-        <Select
-          value={filterType}
-          onChange={(e) => setFilterType(e.target.value as FilterType)}
-          options={[
-            { value: "all", label: "All Tasks" },
-            { value: "active", label: "Active" },
-            { value: "completed", label: "Completed" },
-          ]}
-          className="w-full sm:w-40"
-        />
+        {/* Filters - Side by Side */}
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+          <div className="flex items-center gap-3">
+            <label className="text-sm font-medium text-[hsl(var(--foreground))]">
+              Status:
+            </label>
+            <Select
+              value={filterType}
+              onChange={(e) => setFilterType(e.target.value as FilterType)}
+              options={[
+                { value: "all", label: "All Tasks" },
+                { value: "active", label: "Active" },
+                { value: "completed", label: "Completed" },
+              ]}
+              className="w-full min-w-[140px] sm:w-auto"
+            />
+          </div>
 
-        {tags.length > 0 && (
-          <Select
-            value={selectedTagId}
-            onChange={(e) => setSelectedTagId(e.target.value)}
-            options={[
-              { value: "", label: "All Tags" },
-              ...tags.map((tag) => ({ value: tag.id, label: tag.name })),
-            ]}
-            className="w-full sm:w-40"
-          />
-        )}
+          {tags.length > 0 && (
+            <div className="flex items-center gap-3">
+              <label className="text-sm font-medium text-[hsl(var(--foreground))]">
+                Tag:
+              </label>
+              <Select
+                value={selectedTagId}
+                onChange={(e) => setSelectedTagId(e.target.value)}
+                options={[
+                  { value: "", label: "All Tags" },
+                  ...tags.map((tag) => ({ value: tag.id, label: tag.name })),
+                ]}
+                className="w-full min-w-[140px] sm:w-auto"
+              />
+            </div>
+          )}
+
+          {/* Clear Filters Button */}
+          {(searchQuery || filterType !== "all" || selectedTagId) && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setSearchQuery("");
+                setFilterType("all");
+                setSelectedTagId("");
+              }}
+              className="ml-auto">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="mr-2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+              Clear Filters
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Stats */}
