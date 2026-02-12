@@ -15,7 +15,7 @@ interface AuthContextType {
   login: (credentials: LoginDto) => Promise<void>;
   register: (data: RegisterDto) => Promise<void>;
   logout: () => void;
-  updateUser: (data: Partial<User>) => void;
+  updateUser: (data: Partial<User>) => Promise<void>;
   refreshUser: () => Promise<void>;
 }
 
@@ -77,14 +77,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const logout = () => {
+    removeToken();
     authApi.logout();
     setUser(null);
     router.push(ROUTES.LOGIN);
   };
 
-  const updateUser = (data: Partial<User>) => {
-    if (user) {
-      setUser({ ...user, ...data });
+  const updateUser = async (data: Partial<User>) => {
+    try {
+      const updatedUser = await usersApi.updateProfile(data);
+      setUser(updatedUser);
+    } catch (error) {
+      console.error("Failed to update user:", error);
+      throw error;
     }
   };
 

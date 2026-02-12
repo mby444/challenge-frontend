@@ -7,10 +7,17 @@ export async function getCurrentUser(): Promise<User> {
 }
 
 export async function updateProfile(
-  data: Partial<Pick<User, "name" | "birth">>,
+  data: Partial<Pick<User, "name" | "email" | "birth">>,
 ): Promise<User> {
   const response = await apiClient.patch<User>("/api/users/me", data);
   return response.data;
+}
+
+export async function changePassword(data: {
+  oldPassword: string;
+  newPassword: string;
+}): Promise<void> {
+  await apiClient.patch("/api/users/me/password", data);
 }
 
 export async function deleteAccount(): Promise<void> {

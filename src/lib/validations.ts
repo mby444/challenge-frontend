@@ -57,6 +57,12 @@ export const updateTagSchema = z.object({
 });
 
 // Profile schemas
+export const profileSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters").max(100),
+  email: z.email("Invalid email address"),
+  birth: z.string().min(1, "Birth date is required"),
+});
+
 export const updateProfileSchema = z.object({
   name: z
     .string()
@@ -66,6 +72,26 @@ export const updateProfileSchema = z.object({
   birth: z.string().optional(),
 });
 
+export const changePasswordSchema = z
+  .object({
+    oldPassword: z.string().min(1, "Current password is required"),
+    newPassword: z
+      .string()
+      .min(8, "Password must be at least 8 characters")
+      .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+      .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+      .regex(/[0-9]/, "Password must contain at least one number")
+      .regex(
+        /[^A-Za-z0-9]/,
+        "Password must contain at least one special character",
+      ),
+    confirmPassword: z.string().min(1, "Please confirm your password"),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
 // Export types
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type RegisterFormData = z.infer<typeof registerSchema>;
@@ -73,4 +99,6 @@ export type CreateTaskFormData = z.infer<typeof createTaskSchema>;
 export type UpdateTaskFormData = z.infer<typeof updateTaskSchema>;
 export type CreateTagFormData = z.infer<typeof createTagSchema>;
 export type UpdateTagFormData = z.infer<typeof updateTagSchema>;
+export type ProfileFormData = z.infer<typeof profileSchema>;
 export type UpdateProfileFormData = z.infer<typeof updateProfileSchema>;
+export type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;

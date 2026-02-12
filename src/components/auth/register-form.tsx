@@ -17,6 +17,7 @@ import {
   CardFooter,
 } from "@/src/components/ui/card";
 import { ROUTES } from "@/src/lib/constants";
+import { getErrorMessage } from "@/src/types/error";
 
 export function RegisterForm() {
   const { register: registerUser } = useAuth();
@@ -64,10 +65,8 @@ export function RegisterForm() {
         ...data,
         birth: new Date(data.birth).toISOString(),
       });
-    } catch (err: any) {
-      setError(
-        err.response?.data?.message || "Registration failed. Please try again.",
-      );
+    } catch (err) {
+      setError(getErrorMessage(err));
     } finally {
       setIsLoading(false);
     }

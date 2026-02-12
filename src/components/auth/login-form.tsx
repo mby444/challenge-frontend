@@ -17,6 +17,7 @@ import {
   CardFooter,
 } from "@/src/components/ui/card";
 import { ROUTES } from "@/src/lib/constants";
+import { getErrorMessage } from "@/src/types/error";
 
 export function LoginForm() {
   const { login } = useAuth();
@@ -37,8 +38,8 @@ export function LoginForm() {
 
     try {
       await login(data);
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Invalid email or password");
+    } catch (err) {
+      setError(getErrorMessage(err));
     } finally {
       setIsLoading(false);
     }
