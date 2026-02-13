@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import * as tasksApi from "@/src/lib/api/tasks";
 import type { Task, CreateTaskDto, UpdateTaskDto } from "@/src/types/task";
+import * as tagsApi from "../lib/api/tags";
 
 export function useTasks() {
   const [tasks, setTasks] = useState<Task[]>([]);

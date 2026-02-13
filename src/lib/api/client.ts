@@ -51,7 +51,10 @@ apiClient.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       removeToken();
-      if (typeof window !== "undefined") {
+      if (
+        typeof window !== "undefined" &&
+        !window.location.pathname.startsWith("/login")
+      ) {
         window.location.href = "/login";
       }
     }

@@ -12,7 +12,7 @@ import {
 import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
 import { EditProfileForm } from "@/src/components/profile/edit-profile-form";
-import { ChangePasswordForm } from "@/src/components/profile/change-password-form";
+// import { ChangePasswordForm } from "@/src/components/profile/change-password-form";
 import { DeleteAccountDialog } from "@/src/components/profile/delete-account-dialog";
 
 export default function ProfilePage() {
@@ -111,7 +111,7 @@ export default function ProfilePage() {
       <EditProfileForm />
 
       {/* Change Password Form */}
-      <ChangePasswordForm />
+      {/* <ChangePasswordForm /> */}
 
       {/* Danger Zone */}
       <Card className="border-[hsl(var(--destructive))]">

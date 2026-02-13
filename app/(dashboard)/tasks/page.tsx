@@ -11,7 +11,6 @@ import { Spinner } from "@/src/components/ui/spinner";
 import { TaskItem } from "@/src/components/tasks/task-item";
 import { TaskDialog } from "@/src/components/tasks/task-dialog";
 import { DeleteTaskDialog } from "@/src/components/tasks/delete-task-dialog";
-import * as tasksApi from "@/src/lib/api/tasks";
 import * as tagsApi from "@/src/lib/api/tags";
 import type { Task } from "@/src/types/task";
 import type {
@@ -42,7 +41,7 @@ export default function TasksPage() {
     deleteTask,
     toggleCompletion,
   } = useTasks();
-  const { tags } = useTags();
+  const { tags, attachToTask, detachFromTask } = useTags();
 
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -128,7 +127,28 @@ export default function TasksPage() {
   const handleUpdateTask = async (data: TaskFormDataWithTags) => {
     if (!editingTask) return;
     const { selectedTagIds, ...taskData } = data;
+    const oldTagIds = editingTask.tags.map((tag) => tag.id);
     await updateTask(editingTask.id, taskData as UpdateTaskFormData);
+    const detachingTagIds = oldTagIds.filter(
+      (tagId) => !selectedTagIds?.includes(tagId),
+    );
+    const attachingTagIds = selectedTagIds?.filter(
+      (tagId) => !oldTagIds.includes(tagId),
+    );
+
+    if (detachingTagIds.length > 0) {
+      for (const tagId of detachingTagIds) {
+        await detachFromTask(tagId, editingTask.id);
+      }
+    }
+
+    if (attachingTagIds && attachingTagIds.length > 0) {
+      for (const tagId of attachingTagIds) {
+        await attachToTask(tagId, editingTask.id);
+      }
+    }
+
+    await fetchTasks();
   };
 
   const handleOpenCreateDialog = () => {

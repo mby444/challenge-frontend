@@ -7,7 +7,7 @@ export default function middleware(request: NextRequest) {
 
   const isAuthPage =
     pathname.startsWith("/login") || pathname.startsWith("/register");
-  const isProtectedPage = !isAuthPage && pathname !== "/";
+  const isProtectedPage = !isAuthPage;
 
   // Redirect to login if accessing protected page without token
   if (isProtectedPage && !token) {
