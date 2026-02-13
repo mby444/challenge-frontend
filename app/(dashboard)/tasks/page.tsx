@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTasks } from "@/src/hooks/use-tasks";
 import { useTags } from "@/src/hooks/use-tags";
@@ -31,7 +31,7 @@ type TaskFormDataWithTags =
 
 type FilterType = "all" | "active" | "completed";
 
-export default function TasksPage() {
+function TasksContent() {
   const searchParams = useSearchParams();
   const {
     tasks,
@@ -394,5 +394,13 @@ export default function TasksPage() {
         isDeleting={isDeleting}
       />
     </div>
+  );
+}
+
+export default function TaskPage() {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <TasksContent />
+    </Suspense>
   );
 }
