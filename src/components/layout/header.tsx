@@ -10,8 +10,12 @@ import {
 import { Button } from "@/src/components/ui/button";
 import { ROUTES } from "@/src/lib/constants";
 
+import { useState } from "react";
+import { MobileNav } from "./mobile-nav";
+
 export function Header() {
   const { user, logout } = useAuth();
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   const getUserInitials = () => {
     if (!user) return "";
@@ -27,6 +31,26 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-[hsl(var(--border))] bg-[hsl(var(--card))]">
       <div className="flex h-16 items-center justify-between px-6">
         <div className="flex items-center space-x-4">
+          <button
+            className="mr-2 md:hidden"
+            onClick={() => setIsMobileNavOpen(true)}>
+            <span className="sr-only">Open menu</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+
           <Link href={ROUTES.HOME} className="flex items-center space-x-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))]">
               <svg
@@ -108,6 +132,10 @@ export function Header() {
           )}
         </div>
       </div>
+      <MobileNav
+        isOpen={isMobileNavOpen}
+        onClose={() => setIsMobileNavOpen(false)}
+      />
     </header>
   );
 }

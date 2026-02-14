@@ -124,7 +124,7 @@ export default function ProfilePage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex items-start justify-between rounded-lg border border-[hsl(var(--destructive))] bg-[hsl(var(--destructive))]/5 p-4">
+          <div className="flex flex-col gap-4 rounded-lg border border-[hsl(var(--destructive))] bg-[hsl(var(--destructive))]/5 p-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <h4 className="font-semibold text-[hsl(var(--foreground))]">
                 Delete Account

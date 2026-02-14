@@ -62,7 +62,7 @@ export function TaskItem({
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100">
+                className="h-8 w-8 p-0 opacity-100 md:opacity-0 md:group-hover:opacity-100">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"

@@ -11,7 +11,7 @@ export default function DashboardLayout({
       <Header />
       <div className="flex">
         <Sidebar />
-        <main className="ml-64 mt-16 w-full p-8">{children}</main>
+        <main className="mt-16 w-full p-4 md:ml-64 md:p-8">{children}</main>
       </div>
     </div>
   );

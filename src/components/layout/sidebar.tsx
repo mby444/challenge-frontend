@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/src/lib/utils";
 import { ROUTES } from "@/src/lib/constants";
 
-const navItems = [
+export const navItems = [
   {
     title: "Dashboard",
     href: ROUTES.HOME,
@@ -90,7 +90,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed left-0 top-16 z-30 h-[calc(100vh-4rem)] w-64 border-r border-[hsl(var(--border))] bg-[hsl(var(--card))]">
+    <aside className="fixed left-0 top-16 z-30 hidden h-[calc(100vh-4rem)] w-64 border-r border-[hsl(var(--border))] bg-[hsl(var(--card))] md:block">
       <nav className="flex flex-col space-y-1 p-4">
         {navItems.map((item) => {
           const isActive =
